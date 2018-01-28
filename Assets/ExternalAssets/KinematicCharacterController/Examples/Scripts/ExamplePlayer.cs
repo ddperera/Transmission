@@ -8,7 +8,7 @@ namespace KinematicCharacterController.Examples
     {
         public OrbitCamera OrbitCamera;
         public Transform CameraFollowPoint;
-        public ExampleCharacterController Character;
+        public BikeCharacterController Character;
         public float MouseSensitivity = 1f;
         public Collider[] IgnoredColliders;
 
@@ -41,10 +41,10 @@ namespace KinematicCharacterController.Examples
             }
 
             // Gather input
-            float moveAxisForward = Input.GetAxisRaw("Vertical");
-            float moveAxisRight = Input.GetAxisRaw("Horizontal");
+			float moveAxisForward = Character.KinematicCharacterMotor.IsStableOnGround ? 1.0f : 0.0f;
+			float moveAxisRight = 0f;
             float mouseLookAxisUp = Input.GetAxisRaw("Mouse Y");
-            float mouseLookAxisRight = Input.GetAxisRaw("Mouse X");
+			float mouseLookAxisRight = Input.GetAxis("Horizontal");
             _moveInputVector = new Vector3(moveAxisRight, 0f, moveAxisForward);
             _moveInputVector = Vector3.ClampMagnitude(_moveInputVector, 1f);
 
@@ -61,22 +61,6 @@ namespace KinematicCharacterController.Examples
                 // Apply move input to character
                 Vector3 cameraOrientedInput = Quaternion.LookRotation(OrbitCamera.PlanarDirection, OrbitCamera.transform.up) * _moveInputVector;
                 Character.SetInputs(cameraOrientedInput, OrbitCamera.PlanarDirection);
-
-                // Jump input
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    Character.Jump();
-                }
-
-                // Croucing input
-                if (Input.GetKeyDown(KeyCode.C))
-                {
-                    Character.Crouch(true);
-                }
-                else if (Input.GetKeyUp(KeyCode.C))
-                {
-                    Character.Crouch(false);
-                }
 
                 // Apply input to camera
                 float scrollInput = -Input.GetAxis("Mouse ScrollWheel");
