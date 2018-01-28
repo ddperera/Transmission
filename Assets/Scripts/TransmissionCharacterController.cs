@@ -46,6 +46,8 @@ public class TransmissionCharacterController : BaseCharacterController {
 	public float skidTrailsThreshold = .85f;
 	public float skidTrailsMaxColorAlpha;
 
+	private ShiftEffects m_shiftEffectsRef;
+
 	[Header("UI")]
 	public Text shiftText;
 	public Text speedText;
@@ -55,6 +57,7 @@ public class TransmissionCharacterController : BaseCharacterController {
 	private Vector3 m_desiredRot;
 	private Vector3 m_moveInput = Vector3.zero;
 
+
 	// Use this for initialization
 	void Start()
 	{
@@ -62,6 +65,7 @@ public class TransmissionCharacterController : BaseCharacterController {
 		cameraSwivelFollower.SetSwivelTarget(cameraSwivelTarget, this);
 		m_swivelOrigin = cameraSwivelTarget.localPosition;
 		m_rotateWheelsRef = visualsObj.GetComponentInChildren<RotateWheels>();
+		m_shiftEffectsRef = GetComponent<ShiftEffects>();
 		/*foreach (ParticleSystem p in skidSparksParticles)
 		{
 			var em = p.emission;
@@ -299,9 +303,9 @@ public class TransmissionCharacterController : BaseCharacterController {
 		if (m_curShiftIdx < 4)
 		{
 			m_curShiftIdx++;
+			OnShiftUp();
 		}
 		shiftText.text = "GEAR " + GetTextForm(m_curShiftIdx + 1);
-		OnShiftUp();
 		Timing.RunCoroutineSingleton(_ShiftCooldown(shiftUpCooldown), "ShiftCooldown", SingletonBehavior.Overwrite);
 	}
 	private void InputShiftDown()
@@ -309,18 +313,19 @@ public class TransmissionCharacterController : BaseCharacterController {
 		if (m_curShiftIdx > 0)
 		{
 			m_curShiftIdx--;
+			OnShiftDown();
 		}
 		shiftText.text = "GEAR " + GetTextForm(m_curShiftIdx + 1);
-		OnShiftDown();
 	}
 
 	private void OnShiftUp()
 	{
-
+		m_shiftEffectsRef.ShiftUp();
+		print("plbt");
 	}
 	private void OnShiftDown()
 	{
-
+		m_shiftEffectsRef.ShiftDown();
 	}
 
 	private IEnumerator<float> _ShiftCooldown(float duration)
