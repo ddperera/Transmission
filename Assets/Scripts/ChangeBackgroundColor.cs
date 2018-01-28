@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.PostProcessing;
+using MEC;
 
 public class ChangeBackgroundColor : MonoBehaviour {
 
@@ -15,6 +17,16 @@ public class ChangeBackgroundColor : MonoBehaviour {
 	public void ChangeColor(Color color, float duration, Ease easing = Ease.InQuart)
 	{
 		m_camera.DOColor(color, duration).SetEase(easing);
-		m_camera.GetComponent
+		/*var behavior = GetComponent<PostProcessingBehaviour>();
+		if (behavior.profile != null)
+		{
+			var settings = behavior.profile.vignette.settings;
+			Timing.RunCoroutineSingleton(_LerpVignetteColor(settings, color, duration), "LerpVignette", SingletonBehavior.Overwrite);
+		}*/
+	}
+
+	private IEnumerator<float> _LerpVignetteColor(VignetteModel.Settings settings, Color col, float dur)
+	{
+		yield return 0f;
 	}
 }
