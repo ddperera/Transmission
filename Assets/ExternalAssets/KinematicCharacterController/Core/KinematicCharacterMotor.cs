@@ -837,7 +837,7 @@ namespace KinematicCharacterController
                 if (sweepsMade > MaxMovementSweepIterations)
                 {
                     remainingFrameMovementMagnitude = 0;
-                    wasCompleted = false;
+                    //wasCompleted = false;
                 }
             }
 

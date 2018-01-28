@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 54345307040043394}
   - component: {fileID: 114877744220408276}
   - component: {fileID: 114193425417833032}
+  - component: {fileID: 114624112987911396}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -294,7 +295,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1577524520282566}
   m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -32.07491, y: 0.0043045282, z: 11.02508}
+  m_LocalPosition: {x: -5000, y: 0.0043045282, z: 11.02508}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4181197869767654}
@@ -983,15 +984,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a4499f5dd18a84fba27fb469430ac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterController: {fileID: 0}
+  CharacterController: {fileID: 114877744220408276}
   CharacterCapsule: {fileID: 136254073330500346}
   CharacterRigidbody: {fileID: 54345307040043394}
   CharacterRadius: 0.5
   CharacterHeight: 1
   CharacterPhysicsMaterial: {fileID: 0}
   GroundProbingDistance: 1
-  MaxStableSlopeAngle: 75
-  MaxStepHeight: 0
+  MaxStableSlopeAngle: 85
+  MaxStepHeight: 0.49
   MaxStableOnLedgeVelocity: 7
   MaxStableDistanceFromLedge: 0
   DynamicPushForce: 0.2
@@ -1002,6 +1003,18 @@ MonoBehaviour:
   StepAndLedgeHandling: 0
   InteractiveRigidbodyHandling: 0
   SafeMovement: 1
+--- !u!114 &114624112987911396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1577524520282566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcebe8588b94ac44839abbf79dd7048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerpSpeed: 0.1
 --- !u!114 &114877744220408276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1014,17 +1027,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeeds:
-  - 100
-  - 100
-  - 100
-  - 100
-  - 100
+  - 60
+  - 90
+  - 120
+  - 150
+  - 200
   turnRates:
   - 150
-  - 150
-  - 150
-  - 150
-  - 150
+  - 130
+  - 90
+  - 50
+  - 20
   velocityTurnAdjustmentRates:
   - 0.1
   - 0.1
@@ -1036,7 +1049,7 @@ MonoBehaviour:
   - 0.2
   - 0.2
   - 0.2
-  - 0.2
+  - 0.1
   skidMultiplierExponent: 8
   minSkidMultiplier: 0.15
   airDrag: 0.1
