@@ -197,7 +197,7 @@ public class TransmissionCharacterController : BaseCharacterController {
 						tr.endColor = col;
 					}
 				}
-				Debug.Log("val: "+skidEffectsInvert+" start color: " + skidTrails[0].startColor + " end color: " + skidTrails[0].endColor);
+				//Debug.Log("val: "+skidEffectsInvert+" start color: " + skidTrails[0].startColor + " end color: " + skidTrails[0].endColor);
 			}
 
 			//move velocity towards target
