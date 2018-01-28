@@ -14,6 +14,8 @@ ModelImporter:
     100012: FrontWeelConnector
     100014: FrontWheelHolder
     100016: MainBody
+    100018: Cone
+    100020: Plane
     400000: //RootNode
     400002: BackWheel
     400004: BackWheelConnector
@@ -23,8 +25,12 @@ ModelImporter:
     400012: FrontWeelConnector
     400014: FrontWheelHolder
     400016: MainBody
+    400018: Cone
+    400020: Plane
     2100000: None__TextureAtlas
     2100002: unnamed
+    2100004: GridMat
+    2100006: EmissiveMat
     2300000: BackWheel
     2300002: BackWheelConnector
     2300004: BackWheelHolder
@@ -33,6 +39,8 @@ ModelImporter:
     2300010: FrontWeelConnector
     2300012: FrontWheelHolder
     2300014: MainBody
+    2300016: Cone
+    2300018: Plane
     3300000: BackWheel
     3300002: BackWheelConnector
     3300004: BackWheelHolder
@@ -41,6 +49,8 @@ ModelImporter:
     3300010: FrontWeelConnector
     3300012: FrontWheelHolder
     3300014: MainBody
+    3300016: Cone
+    3300018: Plane
     4300000: FrontWeelConnector
     4300002: BackWheelConnector
     4300004: FrontWheelHolder
@@ -49,6 +59,8 @@ ModelImporter:
     4300010: BackWheelHolder
     4300012: Cockpit
     4300014: MainBody
+    4300016: Cone
+    4300018: Plane
   externalObjects: {}
   materials:
     importMaterials: 1

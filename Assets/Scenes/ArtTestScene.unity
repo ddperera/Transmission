@@ -155,6 +155,22 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28ab819de2a87a1479a9d476329cd627, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &670240217 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1123728156593698, guid: 28ab819de2a87a1479a9d476329cd627,
+    type: 2}
+  m_PrefabInternal: {fileID: 670240216}
+--- !u!114 &670240228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 670240217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb6ca8ae890dc340be40738c2dfd240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1263854047
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +268,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
+  - {fileID: 2100000, guid: 414771cc433e61c42b34e6215d517d36, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
