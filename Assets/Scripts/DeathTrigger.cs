@@ -28,8 +28,10 @@ public class DeathTrigger : MonoBehaviour {
 
 		if(Time.time - m_lastGroundedTime > UngroundedTimeTilDeath) 
 		{
-			Scene scene = SceneManager.GetActiveScene();
-			SceneManager.LoadScene(scene.name);
+			GameObject player = GameObject.FindWithTag("Player");
+			GameObject respawn = GameObject.FindWithTag("Respawn");
+			player.transform.position = respawn.transform.position;
+			player.transform.rotation = respawn.transform.rotation;
 		}
 	}
 

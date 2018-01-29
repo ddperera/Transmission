@@ -42,12 +42,19 @@ public class TransmissionCharacterController : BaseCharacterController {
 	public float skidSparksThreshold = .75f;
 	public float skidSparksMaxRateMultiplier = 1f;
 	public float skidSparksMaxStartSpeedMultiplier = 1f;
-	public TrailRenderer[] skidTrails;
+	public ChangeTrailColor skidTrails;
 	public float skidTrailsThreshold = .85f;
 	public float skidTrailsMaxColorAlpha;
 
 	private ShiftEffects m_shiftEffectsRef;
 	private MusicMgr m_musicMgrRef;
+
+	[Header("Audio")]
+	public AudioSource engineHigh;
+	public float[] engineHighPitches;
+	public AudioClip deathSound;
+	public AudioClip shiftUpSound, shiftDownSound;
+	private AudioSource m_audioOneShots;
 
 	[Header("UI")]
 	public Text shiftText;
@@ -72,10 +79,8 @@ public class TransmissionCharacterController : BaseCharacterController {
 			var em = p.emission;
 			em.rateOverTimeMultiplier = 0f;
 		}*/
-		foreach (TrailRenderer tr in skidTrails)
-		{
-			tr.startWidth = 0f;
-		}
+		skidTrails = GetComponentInChildren<ChangeTrailColor>();
+		m_audioOneShots = GetComponent<AudioSource>();
 		m_canShiftUp = true;
 
 		m_musicMgrRef = GameObject.FindWithTag("MusicMgr").GetComponent<MusicMgr>();
@@ -117,6 +122,21 @@ public class TransmissionCharacterController : BaseCharacterController {
 			p.gameObject.transform.localEulerAngles = rot;
 		}*/
 		if (KinematicCharacterMotor.Velocity.sqrMagnitude > 0f) m_rotateWheelsRef.SetSpeed(KinematicCharacterMotor.Velocity.magnitude);
+
+		//sfx
+		engineHigh.pitch = engineHighPitches[m_curShiftIdx];
+	}
+
+	void LateUpdate()
+	{
+		//respawn
+		if (shouldRespawn)
+		{
+			GameObject respawn = GameObject.FindWithTag("Respawn");
+			transform.position = respawn.transform.position;
+			transform.rotation = respawn.transform.rotation;
+			shouldRespawn = false;
+		}
 	}
 
 	#region character controller updates
@@ -179,32 +199,14 @@ public class TransmissionCharacterController : BaseCharacterController {
 				}*/
 
 				//show skid trails
-				Color col;
 				if (skidEffectsMultiplier <= skidTrailsThreshold)
 				{
-					foreach (TrailRenderer tr in skidTrails)
-					{
-						col = tr.startColor;
-						col.a = skidTrailsMaxColorAlpha * skidEffectsInvert * 2f;
-						tr.startColor = col;
-						col = tr.endColor;
-						col.a = skidTrailsMaxColorAlpha * skidEffectsInvert * 2f;
-						tr.endColor = col;
-					}
+					skidTrails.trailOpacity = skidTrailsMaxColorAlpha * skidEffectsInvert * 2f;
 				}
 				else
 				{
-					foreach (TrailRenderer tr in skidTrails)
-					{
-						col = tr.startColor;
-						col.a = 0f;
-						tr.startColor = col;
-						col = tr.endColor;
-						col.a = 0f;
-						tr.endColor = col;
-					}
+					skidTrails.trailOpacity = 0f;
 				}
-				//Debug.Log("val: "+skidEffectsInvert+" start color: " + skidTrails[0].startColor + " end color: " + skidTrails[0].endColor);
 			}
 
 			//move velocity towards target
@@ -234,17 +236,7 @@ public class TransmissionCharacterController : BaseCharacterController {
 				var em = p.emission;
 				em.rateOverTimeMultiplier = 0f;
 			}*/
-			Color col;
-			foreach (TrailRenderer tr in skidTrails)
-			{
-				col = tr.startColor;
-				col.a = 0f;
-				tr.startColor = col;
-				col = tr.endColor;
-				col.a = 0f;
-				tr.endColor = col;
-			}
-
+			skidTrails.trailOpacity = 0f;
 			speedText.text = "SPEED ???";
 		}
 
@@ -325,11 +317,13 @@ public class TransmissionCharacterController : BaseCharacterController {
 	{
 		m_shiftEffectsRef.ShiftUp();
 		m_musicMgrRef.OnShift(m_curShiftIdx);
+		m_audioOneShots.PlayOneShot(shiftUpSound, 1.5f);
 	}
 	private void OnShiftDown()
 	{
 		m_shiftEffectsRef.ShiftDown();
 		m_musicMgrRef.OnShift(m_curShiftIdx);
+		m_audioOneShots.PlayOneShot(shiftDownSound, 3f);
 	}
 
 	private IEnumerator<float> _ShiftCooldown(float duration)
@@ -363,9 +357,16 @@ public class TransmissionCharacterController : BaseCharacterController {
 		
 	}
 
+	bool shouldRespawn = false;
 	public override void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, bool isStableOnHit)
 	{
-		
+		if (hitCollider.gameObject.GetComponent<DeathOnHit>())
+		{
+			shouldRespawn = true;
+			m_curShiftIdx = 0;
+			shiftText.text = "GEAR ONE";
+			m_audioOneShots.PlayOneShot(deathSound, 2f);
+		}
 	}
 
 	public void OnLanded()

@@ -238,7 +238,7 @@ public class MusicMgr : MonoBehaviour {
 	{
 		foreach (ChangeEmissiveColor em in m_changeEmissiveColorRefs)
 		{
-			em.PulseEmission(1f, .05f);
+			em.PulseEmission(1.15f, .05f);
 		}
 	}
 
@@ -246,7 +246,7 @@ public class MusicMgr : MonoBehaviour {
 	{
 		foreach (ChangeEmissiveColor em in m_changeEmissiveColorRefs)
 		{
-			em.PulseEmission(1.35f, .075f);
+			em.PulseEmission(1.65f, .05f);
 		}
 	}
 
@@ -276,7 +276,7 @@ public class MusicMgr : MonoBehaviour {
 		Color color = colorOptions[idx];
 		foreach (ChangeEmissiveColor em in m_changeEmissiveColorRefs)
 		{
-			em.ChangeColor(color, .8f, .25f);
+			em.ChangeColor(color, 1f, .25f);
 		}
 		m_changeBackgroundColorRef.ChangeColor(color, .25f);
 	}
