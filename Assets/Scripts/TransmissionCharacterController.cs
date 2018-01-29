@@ -47,6 +47,7 @@ public class TransmissionCharacterController : BaseCharacterController {
 	public float skidTrailsMaxColorAlpha;
 
 	private ShiftEffects m_shiftEffectsRef;
+	private MusicMgr m_musicMgrRef;
 
 	[Header("UI")]
 	public Text shiftText;
@@ -76,6 +77,8 @@ public class TransmissionCharacterController : BaseCharacterController {
 			tr.startWidth = 0f;
 		}
 		m_canShiftUp = true;
+
+		m_musicMgrRef = GameObject.FindWithTag("MusicMgr").GetComponent<MusicMgr>();
 	}
 
 	// Update is called once per frame
@@ -321,11 +324,12 @@ public class TransmissionCharacterController : BaseCharacterController {
 	private void OnShiftUp()
 	{
 		m_shiftEffectsRef.ShiftUp();
-		print("plbt");
+		m_musicMgrRef.OnShift(m_curShiftIdx);
 	}
 	private void OnShiftDown()
 	{
 		m_shiftEffectsRef.ShiftDown();
+		m_musicMgrRef.OnShift(m_curShiftIdx);
 	}
 
 	private IEnumerator<float> _ShiftCooldown(float duration)

@@ -11,6 +11,8 @@ public class ChangeEmissiveColor : MonoBehaviour {
 	private ParticleSystem[] m_particleSystems;
 	private TrailRenderer[] m_trailRenderers;
 
+	private float m_curEmissionBrightness;
+
 	// Use this for initialization
 	void Start () {
 		m_materials = new List<Material>();
@@ -27,19 +29,45 @@ public class ChangeEmissiveColor : MonoBehaviour {
 
 		m_particleSystems = GetComponentsInChildren<ParticleSystem>();
 		m_trailRenderers = GetComponentsInChildren<TrailRenderer>();
+
+		if (m_materials.Count > 0)
+		{
+			m_curEmissionBrightness = m_materials[0].GetColor("_EmissionColor").r;
+		}
 	}
 
 	private void Update()
 	{
-		Color col = m_materials[0].color;
-		foreach (ParticleSystem p in m_particleSystems)
+		if (m_materials.Count > 0)
 		{
-			var main = p.main;
-			main.startColor = col;
+			//Color col = m_materials[0].GetColor("_EmissionColor");
+			Color col = m_materials[0].color;
+			foreach (ParticleSystem p in m_particleSystems)
+			{
+				var main = p.main;
+				main.startColor = col;
+			}
+			foreach (TrailRenderer tr in m_trailRenderers)
+			{
+				tr.startColor = col;
+			}
 		}
-		foreach (TrailRenderer tr in m_trailRenderers)
+	}
+
+	public void PulseEmission(float pulseBrightnessChange, float timeToMax, Ease easing = Ease.InOutQuad)
+	{
+		foreach (Material m in m_materials)
 		{
-			tr.startColor = col;
+			Color col = m.GetColor("_EmissionColor");
+			m.DOColor(col * (m_curEmissionBrightness + pulseBrightnessChange), timeToMax).SetEase(easing).SetLoops(1, LoopType.Yoyo);
+		}
+	}
+
+	public void WubColor(Color color, float emissionBrightness, float durationToMax, Ease easing = Ease.InOutCubic)
+	{
+		foreach (Material m in m_materials)
+		{
+			m.DOColor(color * emissionBrightness, "_EmissionColor", durationToMax).SetLoops(1, LoopType.Yoyo).SetEase(easing);
 		}
 	}
 
@@ -50,5 +78,6 @@ public class ChangeEmissiveColor : MonoBehaviour {
 			m.DOColor(color*emissionBrightness, "_EmissionColor", duration).SetEase(easing);
 			m.DOColor(color, duration).SetEase(easing);
 		}
+		m_curEmissionBrightness = emissionBrightness;
 	}
 }
