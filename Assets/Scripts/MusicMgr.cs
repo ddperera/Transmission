@@ -77,9 +77,8 @@ public class MusicMgr : MonoBehaviour {
 			foreach (AudioSource src in musicShifts)
 			{
 				src.Stop();
-				src.loop = true;
-				src.volume = 0f;
 			}
+			musicIntro.Play();
 		}
 	}
 
@@ -239,7 +238,7 @@ public class MusicMgr : MonoBehaviour {
 	{
 		foreach (ChangeEmissiveColor em in m_changeEmissiveColorRefs)
 		{
-			em.PulseEmission(.25f, .075f);
+			em.PulseEmission(1f, .05f);
 		}
 	}
 
@@ -247,14 +246,20 @@ public class MusicMgr : MonoBehaviour {
 	{
 		foreach (ChangeEmissiveColor em in m_changeEmissiveColorRefs)
 		{
-			em.PulseEmission(.75f, .075f);
+			em.PulseEmission(1.35f, .075f);
 		}
 	}
 
 	public Color[] colorOptions;
+	int lastIdx = -1;
 	private void Wub()
 	{
-		Color color = colorOptions[Random.Range(0, colorOptions.Length)];
+		int idx = Random.Range(0, colorOptions.Length);
+		while (idx == lastIdx)
+		{
+			idx = Random.Range(0, colorOptions.Length);
+		}
+		Color color = colorOptions[idx];
 		foreach (ChangeEmissiveColor em in m_changeEmissiveColorRefs)
 		{
 			em.WubColor(color, 1.5f, wubPeakTime);
@@ -263,10 +268,15 @@ public class MusicMgr : MonoBehaviour {
 
 	private void ChangeColor()
 	{
-		Color color = colorOptions[Random.Range(0, colorOptions.Length)];
+		int idx = Random.Range(0, colorOptions.Length);
+		while (idx == lastIdx)
+		{
+			idx = Random.Range(0, colorOptions.Length);
+		}
+		Color color = colorOptions[idx];
 		foreach (ChangeEmissiveColor em in m_changeEmissiveColorRefs)
 		{
-			em.ChangeColor(color, 1f, .25f);
+			em.ChangeColor(color, .8f, .25f);
 		}
 		m_changeBackgroundColorRef.ChangeColor(color, .25f);
 	}

@@ -16,8 +16,9 @@ public class ChangeEmissiveColor : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_materials = new List<Material>();
-		foreach (Renderer r in GetComponentsInChildren<Renderer>())
+		foreach (Renderer r in GetComponents<Renderer>())
 		{
+			//todo somehow only grab materials that have emission
 			foreach (Material m in r.materials)
 			{
 				if (!m_materials.Contains(m))
@@ -59,7 +60,8 @@ public class ChangeEmissiveColor : MonoBehaviour {
 		foreach (Material m in m_materials)
 		{
 			Color col = m.GetColor("_EmissionColor");
-			m.DOColor(col * (m_curEmissionBrightness + pulseBrightnessChange), timeToMax).SetEase(easing).SetLoops(1, LoopType.Yoyo);
+			m.DOColor(col * (m_curEmissionBrightness + pulseBrightnessChange), "_EmissionColor", timeToMax).SetEase(easing);
+			m.DOColor(col * m_curEmissionBrightness, "_EmissionColor", timeToMax).SetEase(easing).SetDelay(timeToMax);
 		}
 	}
 
@@ -67,7 +69,9 @@ public class ChangeEmissiveColor : MonoBehaviour {
 	{
 		foreach (Material m in m_materials)
 		{
-			m.DOColor(color * emissionBrightness, "_EmissionColor", durationToMax).SetLoops(1, LoopType.Yoyo).SetEase(easing);
+			Color orig = m.GetColor("_EmissionColor");
+			m.DOColor(color * emissionBrightness, "_EmissionColor", durationToMax).SetEase(easing);
+			m.DOColor(orig, "_EmissionColor", durationToMax).SetEase(easing).SetDelay(durationToMax);
 		}
 	}
 

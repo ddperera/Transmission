@@ -16,7 +16,7 @@ public class ChangeBackgroundColor : MonoBehaviour {
 
 	public void ChangeColor(Color color, float duration, Ease easing = Ease.InQuart)
 	{
-		m_camera.DOColor(color, duration).SetEase(easing);
+		m_camera.DOColor(color*.2f, duration).SetEase(easing);
 		var behavior = GetComponent<PostProcessingBehaviour>();
 		if (behavior.profile != null)
 		{
